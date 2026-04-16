@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-800;
+  }
+  
+  body {
+    @apply bg-gray-950 text-gray-200 font-mono;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: theme('backgroundImage.scanlines');
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  body > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn-terminal {
+    @apply bg-gray-900 border border-gray-800 text-green-400 px-4 py-2 font-mono text-sm transition-all duration-200 hover:bg-green-400 hover:text-gray-950 hover:shadow-green-400/40;
+  }
+  
+  .btn-terminal:hover::after {
+    content: '_';
+    @apply animate-blink ml-1;
+  }
+  
+  .btn-terminal-danger {
+    @apply bg-gray-900 border border-red-500 text-red-400 px-4 py-2 font-mono text-sm transition-all duration-200 hover:bg-red-500 hover:text-gray-950;
+  }
+  
+  .terminal-card {
+    @apply bg-gray-900 border-l-4 border-l-gray-800 border border-gray-800 p-4 transition-all duration-200 hover:border-l-green-400;
+  }
+  
+  .terminal-input {
+    @apply bg-gray-900 border border-gray-800 text-gray-200 px-3 py-2 font-mono text-sm focus:outline-none focus:border-green-400 transition-all duration-200;
+  }
+  
+  .terminal-input::before {
+    content: '> ';
+    @apply text-green-400;
+  }
+  
+  .terminal-prompt {
+    @apply text-green-400 font-mono;
+  }
+  
+  .terminal-cyan {
+    @apply text-cyan-400;
+  }
+  
+  .terminal-amber {
+    @apply text-amber-400;
+  }
+  
+  .terminal-flag {
+    @apply text-amber-400 font-mono text-xs bg-gray-900 px-2 py-1 border border-amber-400/30;
+  }
+  
+  .terminal-timestamp {
+    @apply text-green-400 font-mono text-xs opacity-70;
+  }
+  
+  .terminal-boot-line {
+    @apply text-green-400 font-mono text-sm mb-2 animate-fade-in;
+  }
+  
+  .terminal-command {
+    @apply text-green-400 font-mono font-semibold;
+  }
+  
+  .terminal-output {
+    @apply text-gray-200 font-mono;
+  }
+  
+  .terminal-titlebar {
+    @apply bg-gray-900 border-b border-gray-800 px-4 py-2 flex items-center justify-between;
+  }
+  
+  .terminal-path {
+    @apply text-gray-500 font-mono text-sm;
+  }
+  
+  .cursor-blink::after {
+    content: '_';
+    @apply text-green-400 animate-blink ml-1;
+  }
+  
+  .scanline-overlay {
+    position: relative;
+  }
+  
+  .scanline-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: theme('backgroundImage.scanlines');
+    pointer-events: none;
+  }
+}
