@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { supabase, Project, Comment } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 
-const ProjectCard = ({ project, onToggleComments, isExpanded }: { project: Project; onToggleComments: (id: string) => void; isExpanded: boolean }) => {
+const ProjectCard = ({ project, onToggleComments, isExpanded, onOpenLink }: { project: Project; onToggleComments: (id: string) => void; isExpanded: boolean; onOpenLink: (url: string, username: string) => void }) => {
   return (
-    <div className="terminal-card cursor-pointer group">
+    <div className="terminal-card group">
       <div className="mb-3">
         <div className="flex items-center space-x-2">
           <span className="terminal-prompt">{'>'}</span>
@@ -30,7 +30,7 @@ const ProjectCard = ({ project, onToggleComments, isExpanded }: { project: Proje
           <span className="text-gray-500 font-mono text-sm">author:</span>
           <Link 
             to={`/u/${project.username || 'user'}`}
-            className="terminal-cyan font-mono text-sm hover:underline"
+            className="terminal-cyan font-mono text-sm hover:underline cursor-pointer"
             onClick={(e) => e.stopPropagation()}
           >
             @{project.username || 'user'}
@@ -38,15 +38,15 @@ const ProjectCard = ({ project, onToggleComments, isExpanded }: { project: Proje
         </div>
         
         <div className="flex space-x-2">
-          <a
-            href={project.deployed_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onOpenLink(project.deployed_url, project.username || 'unknown')
+            }}
             className="btn-terminal text-xs"
           >
             [ open ]
-          </a>
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -71,6 +71,7 @@ const Home = () => {
   const [expandedComments, setExpandedComments] = useState<Set<string>>(new Set())
   const [comments, setComments] = useState<{ [projectId: string]: Comment[] }>({})
   const [commentInputs, setCommentInputs] = useState<{ [projectId: string]: string }>({})
+  const [linkModal, setLinkModal] = useState<{ url: string; username: string } | null>(null)
 
   const fetchComments = async (projectId: string) => {
     try {
@@ -143,6 +144,17 @@ const Home = () => {
       fetchComments(projectId)
     } catch (error) {
       console.error('Error adding comment:', error)
+    }
+  }
+
+  const handleOpenLink = (url: string, username: string) => {
+    setLinkModal({ url, username })
+  }
+
+  const handleProceedToLink = () => {
+    if (linkModal) {
+      window.open(linkModal.url, '_blank', 'noopener,noreferrer')
+      setLinkModal(null)
     }
   }
 
@@ -226,10 +238,10 @@ const Home = () => {
   }, [loading, hasMore, page])
 
   return (
-    <div className="min-h-screen bg-bg-terminal">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-bg-terminal overflow-y-auto">
+      <div className="max-w-6xl mx-auto px-4 pt-16 pb-8">
         {/* Terminal Boot Screen */}
-        <div className="mb-12">
+        <div className="text-left">
           <div className="terminal-boot-line">$ initializing dropfolio...</div>
           <div className="terminal-boot-line" style={{ animationDelay: '0.5s' }}>$ loading vibe coder community...</div>
           <div className="terminal-boot-line" style={{ animationDelay: '1s' }}>$ {projects.length.toLocaleString()} projects found. ready.</div>
@@ -260,6 +272,7 @@ const Home = () => {
                       project={project} 
                       onToggleComments={toggleComments}
                       isExpanded={expandedComments.has(project.id)}
+                      onOpenLink={handleOpenLink}
                     />
                   
                   {/* Inline Comments Section */}
@@ -347,6 +360,34 @@ const Home = () => {
           </div>
         )}
       </div>
+
+      {/* External Link Confirmation Modal */}
+      {linkModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="terminal-card max-w-md w-full mx-4">
+            <div className="terminal-boot-line mb-4">$ warning: external link</div>
+            <div className="terminal-output mb-4">
+              <div className="mb-2">{'>'} you are about to leave dropfolio</div>
+              <div className="mb-2">{'>'} destination: {linkModal.url}</div>
+              <div className="mb-4">{'>'} this link was posted by @{linkModal.username}</div>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleProceedToLink}
+                className="btn-terminal text-sm"
+              >
+                [ {'>'} proceed ]
+              </button>
+              <button
+                onClick={() => setLinkModal(null)}
+                className="btn-terminal text-sm"
+              >
+                [ cancel ]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

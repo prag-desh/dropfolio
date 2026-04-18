@@ -21,10 +21,10 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navigation - Terminal Title Bar */}
-      <nav className="hidden md:flex terminal-titlebar sticky top-0 z-50">
-        <div className="w-full flex justify-between items-center">
+      <nav className="hidden md:flex terminal-titlebar fixed top-0 left-0 right-0 z-50">
+        <div className="w-full flex justify-between items-center px-4">
           <div className="flex items-center space-x-4">
-            <Link to="/" className="terminal-cyan font-mono font-bold text-lg hover:text-matrix-green transition-colors">
+            <Link to="/" className="text-green-400 font-mono font-bold text-lg hover:text-green-300 transition-colors">
               dropfolio
             </Link>
             <span className="terminal-path">{getCurrentPath()}</span>
@@ -33,8 +33,8 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             <Link
               to="/"
-              className={`text-text-muted hover:text-terminal-cyan transition-colors font-mono text-sm ${
-                isActive('/') ? 'text-terminal-cyan' : ''
+              className={`text-green-400 hover:text-green-300 transition-colors font-mono text-sm ${
+                isActive('/') ? 'text-green-500' : ''
               }`}
             >
               home
@@ -42,8 +42,8 @@ const Navbar = () => {
             {user && (
               <Link
                 to="/drop"
-                className={`text-text-muted hover:text-terminal-cyan transition-colors font-mono text-sm ${
-                  isActive('/drop') ? 'text-terminal-cyan' : ''
+                className={`text-green-400 hover:text-green-300 transition-colors font-mono text-sm ${
+                  isActive('/drop') ? 'text-green-500' : ''
                 }`}
               >
                 drop
@@ -52,8 +52,8 @@ const Navbar = () => {
             {user ? (
               <Link
                 to="/profile"
-                className={`text-text-muted hover:text-terminal-cyan transition-colors font-mono text-sm ${
-                  isActive('/profile') ? 'text-terminal-cyan' : ''
+                className={`text-green-400 hover:text-green-300 transition-colors font-mono text-sm ${
+                  isActive('/profile') ? 'text-green-500' : ''
                 }`}
               >
                 profile
@@ -83,8 +83,8 @@ const Navbar = () => {
         <div className="flex justify-around py-2">
           <Link
             to="/"
-            className={`flex flex-col items-center p-2 text-text-muted hover:text-terminal-cyan transition-colors font-mono text-xs ${
-              isActive('/') ? 'text-terminal-cyan' : ''
+            className={`text-green-400 hover:text-green-300 transition-colors font-mono text-xs ${
+              isActive('/') ? 'text-green-500' : ''
             }`}
           >
             <span className="text-lg">home</span>
@@ -93,8 +93,8 @@ const Navbar = () => {
           {user && (
             <Link
               to="/drop"
-              className={`flex flex-col items-center p-2 text-text-muted hover:text-terminal-cyan transition-colors font-mono text-xs ${
-                isActive('/drop') ? 'text-terminal-cyan' : ''
+              className={`flex flex-col items-center p-2 text-green-400 hover:text-green-300 transition-colors font-mono text-xs ${
+                isActive('/drop') ? 'text-green-500' : ''
               }`}
             >
               <span className="text-lg">drop</span>
@@ -104,8 +104,8 @@ const Navbar = () => {
           {user ? (
             <Link
               to="/profile"
-              className={`flex flex-col items-center p-2 text-text-muted hover:text-terminal-cyan transition-colors font-mono text-xs ${
-                isActive('/profile') ? 'text-terminal-cyan' : ''
+              className={`flex flex-col items-center p-2 text-green-400 hover:text-green-300 transition-colors font-mono text-xs ${
+                isActive('/profile') ? 'text-green-500' : ''
               }`}
             >
               <span className="text-lg">profile</span>

@@ -71,9 +71,9 @@ const Drop = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg-terminal">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="mb-8">
+    <div className="min-h-screen bg-bg-terminal overflow-y-auto">
+      <div className="max-w-2xl mx-auto px-4 pt-16 pb-8">
+        <div>
           <div className="terminal-boot-line">$ drop --project</div>
           <div className="terminal-boot-line" style={{ animationDelay: '0.3s' }}>$ initializing deployment wizard...</div>
         </div>
